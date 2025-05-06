@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Encuesta</title>
+    <link rel="stylesheet" href="crear.css">
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Crear Encuesta</h2>
+        <form action="procesar_crear.php" method="POST">
+            <label for="titulo">Titulo de la encuesta:</label>
+            <input type="text" id="titulo" name="titulo" required>
+
+            <label for="descripcion">Descripcion:</label>
+            <input type="text" id="descripcion" name="descripcion" required>
+
+            <div id="preguntas-container">
+                <!-- Preguntas dinamicas se añaden aqui -->
+            </div>
+
+            <button type="button" onclick="agregarPregunta()">+ Añadir Pregunta</button>
+            <br><br>
+            <button type="submit">Guardar Encuesta</button>
+        </form>
+        <a class="volver" href="../inicio/index.php">Volver al inicio</a>
+    </div>
+
+    <script>
+        let contadorPreguntas = 0;
+
+        function agregarPregunta() {
+            contadorPreguntas++;
+            const container = document.getElementById('preguntas-container');
+
+            const preguntaDiv = document.createElement('div');
+            preguntaDiv.className = 'pregunta';
+            preguntaDiv.dataset.numero = contadorPreguntas;
+
+            preguntaDiv.innerHTML = `
+    <h4>Pregunta ${contadorPreguntas}</h4>
+    <input type="text" name="preguntas[]" required placeholder="Texto de la pregunta">
+
+    <div class="respuestas">
+        ${crearOpcionInput(contadorPreguntas)}
+        ${crearOpcionInput(contadorPreguntas)}
+    </div>
+
+    <button type="button" onclick="agregarOpcion(this)">+ Añadir Opcion</button>
+    <button type="button" class="btn-pequeno" onclick="eliminarPregunta(this)">Eliminar Pregunta</button>
+    `;
+
+            container.appendChild(preguntaDiv);
+            actualizarNumeracion();
+        }
+
+        function crearOpcionInput(preguntaId) {
+            return `
+    <div class="opcion">
+        <input type="text" name="respuestas_${preguntaId}[]" required placeholder="Respuesta">
+        <button type="button" class="btn-pequeno" onclick="eliminarOpcion(this)">Eliminar</button>
+    </div>
+    `;
+        }
+
+        function agregarOpcion(boton) {
+            const respuestasDiv = boton.parentElement.querySelector('.respuestas');
+            const preguntaId = boton.parentElement.dataset.numero;
+            const total = respuestasDiv.querySelectorAll('.opcion').length;
+
+            if (total >= 4) {
+                alert("No se pueden añadir más de 4 respuestas.");
+                return;
+            }
+
+            const nuevaOpcion = document.createElement('div');
+            nuevaOpcion.className = 'opcion';
+            nuevaOpcion.innerHTML = `
+    <input type="text" name="respuestas_${preguntaId}[]" required placeholder="Respuesta">
+    <button type="button" class="btn-pequeno" onclick="eliminarOpcion(this)">Eliminar</button>
+    `;
+
+            respuestasDiv.appendChild(nuevaOpcion);
+            actualizarNumeracionRespuestas(respuestasDiv);
+        }
+
+        function eliminarOpcion(boton) {
+            const respuestasDiv = boton.parentElement.parentElement;
+            const total = respuestasDiv.querySelectorAll('.opcion').length;
+
+            if (total <= 2) { alert("Cada pregunta debe tener al menos 2 respuestas."); return; } boton.parentElement.remove();
+            actualizarNumeracionRespuestas(respuestasDiv);
+        } function eliminarPregunta(boton) {
+            boton.parentElement.remove(); actualizarNumeracion();
+        } function actualizarNumeracion() {
+            const
+                preguntas = document.querySelectorAll('.pregunta'); preguntas.forEach((pregunta, index) => {
+                    const h4 = pregunta.querySelector('h4');
+                    h4.textContent = `Pregunta ${index + 1}`;
+                    pregunta.dataset.numero = index + 1;
+
+                    // Renombrar campos de respuesta
+                    const inputs = pregunta.querySelectorAll('.respuestas input');
+                    inputs.forEach(input => {
+                        input.name = `respuestas_${index + 1}[]`;
+                    });
+
+                    // Actualizar numeración de respuestas
+                    const respuestasDiv = pregunta.querySelector('.respuestas');
+                    actualizarNumeracionRespuestas(respuestasDiv);
+                });
+        }
+
+        function actualizarNumeracionRespuestas(respuestasDiv) {
+            const respuestas = respuestasDiv.querySelectorAll('.opcion input');
+            respuestas.forEach((input, index) => {
+                input.placeholder = `Respuesta ${index + 1}`;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
