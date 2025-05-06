@@ -22,15 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../inicio/index.php");
                 exit();
             } else {
-                echo "⚠ Contraseña incorrecta.";
+                echo " Contraseña incorrecta.";
             }
         } else {
-            echo "⚠ Usuario no encontrado.";
+            echo " Usuario no encontrado.";
         }
     } else {
-        echo "⚠ Completa todos los campos.";
+        echo " Completa todos los campos.";
     }
 } else {
-    echo "⚠ Acceso no autorizado.";
+    echo " Acceso no autorizado.";
 }
 ?>

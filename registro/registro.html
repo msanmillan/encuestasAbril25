@@ -32,6 +32,8 @@
         </form>
         <div class="extra-links">
             <p><a href="../login/login.html">¿Ya tienes una cuenta? Iniciar sesión</a></p>
+            <p><a href="../inicio/index.php">Ir al inicio</a></p>
+
         </div>
     </div>
 
@@ -44,6 +46,13 @@
                 e.preventDefault();
             }
         });
+        // Validar formato básico de correo
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailRegex.test(email)) {
+                alert("Por favor, introduce un correo electrónico válido.");
+                e.preventDefault();
+                return;
+            }
     </script>
 </body>
 

@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmar = trim($_POST["confirm_password"]);
 
     if ($contrasena !== $confirmar) {
-        die("❌ Las contraseñas no coinciden.");
+        die(" Las contraseñas no coinciden.");
     }
 
     // confirmamos email ya esta registrado
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->store_result();
     
     if ($stmt->num_rows > 0) {
-        die("❌ El correo ya está registrado.");
+        die(" El correo ya está registrado.");
     }
 
 // con esto encriptamos la contraseña 
@@ -32,15 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt_insert->bind_param("sss", $nombre, $email, $hash);
 
     if ($stmt_insert->execute()) {
-        echo "✅ Usuario registrado correctamente. <a href='../login/login.html'>Iniciar sesión</a>";
+        echo " Usuario registrado correctamente. <a href='../login/login.html'>Iniciar sesión</a>";
     } else {
-        echo "❌ Error al registrar usuario.";
+        echo " Error al registrar usuario.";
     }
 
     $stmt_insert->close();
     $stmt->close();
     $conn->close();
 } else {
-    echo "⚠️ Acceso no permitido.";
+    echo " Acceso no permitido.";
 }
 ?>
