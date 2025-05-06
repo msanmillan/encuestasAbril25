@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../conexion.php'; // Ajusta la ruta si lo mueves de carpeta
+include '../conexion.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = trim($_POST["username"]);
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("❌ Las contraseñas no coinciden.");
     }
 
-    // Verificar si el email ya está registrado
+    // confirmamos email ya esta registrado
     $sql = "SELECT id_usuario FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
@@ -23,10 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("❌ El correo ya está registrado.");
     }
 
-    // Encriptar contraseña
+// con esto encriptamos la contraseña 
     $hash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-    // Insertar usuario con rol por defecto "usuario"
+    //  usuario con rol por defecto "usuario"
     $insert = "INSERT INTO usuarios (nombre, email, contrasena, rol) VALUES (?, ?, ?, 'usuario')";
     $stmt_insert = $conn->prepare($insert);
     $stmt_insert->bind_param("sss", $nombre, $email, $hash);

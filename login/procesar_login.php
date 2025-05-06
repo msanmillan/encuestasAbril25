@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../conexion.php';
-
+// Hacemos POST para nombre y contraseña
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $resultado = $stmt->get_result();
-
+// dependiendo de si ponemos bien la contraseña o mal o ponemos mal el usuario nos dirige a index.php o no 
         if ($resultado->num_rows == 1) {
             $usuario = $resultado->fetch_assoc();
             if (password_verify($password, $usuario['contrasena'])) {
