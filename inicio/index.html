@@ -2,17 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio</title>
+    <title>motor de encuestas</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="welcome">
-        <h1>¡Bienvenido, {{nombre}}!</h1>
-        <p>Tu rol es: <strong>{{rol}}</strong></p>
-        <a class="btn" href="../crear_encuesta/crear.html">Crear encuesta</a>
+    <header>
+        <div class="logo">encuestas</div>
+        <nav>
+            {{navegacion}}
+        </nav>
+    </header>
 
-        <a href="../logout/cerrar_sesion.php">Cerrar sesión</a>
-    </div>
+    <main>
+        <h1>encuestas disponibles</h1>
+        <div class="grid-encuestas">
+            {{encuestas}}
+        </div>
+    </main>
 </body>
 </html>
+
 
