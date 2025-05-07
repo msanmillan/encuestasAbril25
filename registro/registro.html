@@ -11,48 +11,122 @@
 <body>
     <div class="register-container">
         <h2>Crear cuenta</h2>
-        <form id="registerForm" action="procesar_registro.php" method="POST">
+        <form id="registerForm">
             <div class="form-group">
                 <label for="username">Nombre de usuario</label>
                 <input type="text" id="username" name="username" required />
+                <p id="error-username" class="error-message"></p> <!-- Mensaje de error para el nombre de usuario -->
             </div>
             <div class="form-group">
                 <label for="email">Correo electrónico</label>
                 <input type="email" id="email" name="email" required />
+                <p id="error-email" class="error-message"></p> <!-- Mensaje de error para el email -->
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required />
+                <p id="error-password" class="error-message"></p> <!-- Mensaje de error para la contraseña -->
             </div>
             <div class="form-group">
                 <label for="confirm-password">Confirmar contraseña</label>
                 <input type="password" id="confirm-password" name="confirm_password" required />
+                <p id="error-confirm-password" class="error-message"></p> <!-- Mensaje de error para la confirmación -->
             </div>
             <button type="submit">Registrarse</button>
         </form>
         <div class="extra-links">
             <p><a href="../login/login.html">¿Ya tienes una cuenta? Iniciar sesión</a></p>
             <p><a href="../inicio/index.php">Ir al inicio</a></p>
-
         </div>
     </div>
 
     <script>
         document.getElementById("registerForm").addEventListener("submit", function (e) {
-            const password = document.getElementById("password").value;
-            const confirm = document.getElementById("confirm-password").value;
-            if (password !== confirm) {
-                alert("Las contraseñas no coinciden.");
-                e.preventDefault();
+            e.preventDefault();
+
+            // Limpiar mensajes de error anteriores
+            document.getElementById("error-username").textContent = "";
+            document.getElementById("error-email").textContent = "";
+            document.getElementById("error-password").textContent = "";
+            document.getElementById("error-confirm-password").textContent = "";
+
+            let hasError = false;
+
+            // VALIDAR QUE EL NOMBRE DE USUARIO TENGA AL MENOS 3 CARACTERES
+            const username = document.getElementById("username").value;
+            if (username.length < 3) {
+                document.getElementById("error-username").textContent = "El nombre de usuario debe tener al menos 3 caracteres.";
+                hasError = true;
             }
-        });
-        // Validar formato básico de correo
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailRegex.test(email)) {
-                alert("Por favor, introduce un correo electrónico válido.");
-                e.preventDefault();
+
+            // VALIDAR QUE LA CONTRASEÑA CUMPLA LOS REQUISITOS
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            if (password !== confirmPassword) {
+                document.getElementById("error-confirm-password").textContent = "Las contraseñas no coinciden.";
+                hasError = true;
+            }
+
+            // Validar que la contraseña sea fuerte (al menos 8 caracteres, una letra, un número y un carácter especial)
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            if (!passwordPattern.test(password)) {
+                document.getElementById("error-password").textContent = "La contraseña debe tener al menos 8 caracteres, incluir una letra, un número y un carácter especial.";
+                hasError = true;
+            }
+
+            // VALIDAR QUE EL CORREO ELECTRONICO SEA VALIDO
+            const email = document.getElementById("email").value;
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById("error-email").textContent = "Por favor, introduce un correo electrónico válido.";
+                hasError = true;
+            }
+
+            // Si hay errores, no enviamos el formulario
+            if (hasError) {
                 return;
             }
+
+            // Si no hay errores, enviamos el formulario usando fetch
+            const formData = new FormData(this);
+
+            fetch("procesar_registro.php", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(text => {
+                    if (text.success) {
+                        // Redirigir al usuario al login
+                        window.location.href = "../login/login.html";
+                    } else {
+                        // Mostrar los errores en los campos
+                        if (text.errors.username) {
+                            document.getElementById("error-username").textContent = text.errors.username;
+                        }
+                        if (text.errors.email) {
+                            document.getElementById("error-email").textContent = text.errors.email;
+                        }
+                        if (text.errors.password) {
+                            document.getElementById("error-password").textContent = text.errors.password;
+                        }
+                        if (text.errors.confirm_password) {
+                            document.getElementById("error-confirm-password").textContent = text.errors.confirm_password;
+                        }
+                        if (text.errors.general) {
+                            alert(text.errors.general); // Mensaje de error general
+                        }
+                        if (text.errors.username) {
+                            document.getElementById("error-username").textContent = text.errors.username;
+                        }
+                        if (text.errors.email) {
+                            document.getElementById("error-email").textContent = text.errors.email;
+                        }
+
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        });
     </script>
 </body>
 
