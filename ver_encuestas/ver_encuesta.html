@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Encuesta</title>
+    <link rel="stylesheet" href="ver_encuesta.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 id="autor">Encuesta creada por: <span id="nombreAutor"></span></h2>
+        <h3 id="tituloEncuesta"></h3>
+
+        <form id="formEncuesta">
+            <div id="preguntas-container"></div>
+            <button type="submit">Enviar Respuestas</button>
+        </form>
+
+        <!-- Botón para volver al inicio -->
+        <div class="volver-container">
+            <a href="../inicio/index.php" class="volver-btn">Volver al inicio</a>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || 1;
+
+        fetch(`obtener_encuesta.php?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                document.getElementById("nombreAutor").textContent = data.autor;
+                document.getElementById("tituloEncuesta").textContent = data.titulo;
+
+                const container = document.getElementById("preguntas-container");
+                data.preguntas.forEach((pregunta, index) => {
+                    const divPregunta = document.createElement("div");
+                    divPregunta.classList.add("pregunta");
+
+                    const preguntaHTML = `
+                        <p><strong>Pregunta ${index + 1}:</strong> ${pregunta.texto}</p>
+                        <div class="respuestas">
+                            ${pregunta.respuestas.map(respuesta => `
+                                <label>
+                                    <input type="radio" name="pregunta_${index}" value="${respuesta}" required>
+                                    ${respuesta}
+                                </label><br>
+                            `).join('')}
+                        </div>
+                    `;
+
+                    divPregunta.innerHTML = preguntaHTML;
+                    container.appendChild(divPregunta);
+                });
+            });
+
+        document.getElementById("formEncuesta").addEventListener("submit", function (e) {
+            e.preventDefault();
+            alert("Gracias por completar la encuesta.");
+            // Dani aqui un fetch alomejor para enviar las respuestas y borras el alert
+        });
+    </script>
+</body>
+
+</html>
