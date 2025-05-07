@@ -84,3 +84,10 @@ button:hover {
 .extra-links a:hover {
     text-decoration: underline;
 }
+
+/* ESTILO PARA LOS MENSAJES DE ERROR */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
