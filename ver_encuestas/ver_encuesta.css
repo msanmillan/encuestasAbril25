@@ -44,6 +44,7 @@ button:hover,
 .pregunta {
     margin-bottom: 20px;
     text-align: left; /* Para que el texto de preguntas y respuestas no quede centrado incómodamente */
+    color: #000;
 }
 
 .respuestas {
@@ -53,7 +54,7 @@ button:hover,
 .respuestas label {
     display: block;
     margin: 5px 0;
-    color: #000DFF;
+    color: black;
 }
 
 /* Centrar el botón de volver */
