@@ -18,9 +18,9 @@ if ($resultado->num_rows > 0) {
 
         // si está logueado puede responder, si no, se le avisa
         if (isset($_SESSION['id_usuario'])) {
-            $accion = "<a class='btn' href='#'>responder</a>";
+            $accion = "<a class='btn' href='../ver_encuestas/ver_encuesta.html?id=" . $encuesta['id_encuesta'] . "'>Responder</a>";
         } else {
-            $accion = "<p class='info'> inicia sesión para responder</p>";
+            $accion = "<p class='info'> Inicia sesión para responder</p>";
         }
 
         $bloques .= "
@@ -31,7 +31,7 @@ if ($resultado->num_rows > 0) {
         </div>";
     }
 } else {
-    $bloques = "<p>no hay encuestas aún</p>";
+    $bloques = "<p>No hay encuestas aún</p>";
 }
 
 // sustituimos los recuadros en el html
@@ -41,12 +41,12 @@ $html = str_replace("{{encuestas}}", $bloques, $html);
 if (isset($_SESSION['id_usuario'])) {
     $nav = "
         <span class='usuario'>👤 " . htmlspecialchars($_SESSION['nombre']) . "</span>
-        <a href='../crear_encuesta/crear.html'>crear encuesta</a>
-        <a href='../logout/cerrar_sesion.php'>cerrar sesión</a>";
+        <a href='../crear_encuesta/crear.html'>Crear encuesta</a>
+        <a href='../logout/cerrar_sesion.php'>Cerrar sesión</a>";
 } else {
     $nav = "
-        <a href='../login/login.html'>iniciar sesión</a>
-        <a href='../registro/registro.html'>registrarse</a>";
+        <a href='../login/login.html'>Iniciar sesión</a>
+        <a href='../registro/registro.html'>Registrarse</a>";
 }
 
 // insertamos la navegación en el html
