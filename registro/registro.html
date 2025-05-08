@@ -116,9 +116,6 @@
                         if (text.errors.general) {
                             alert(text.errors.general); // Mensaje de error general
                         }
-                        if (text.errors.username) {
-                            document.getElementById("error-username").textContent = text.errors.username;
-                        }
                     }
                 })
                 .catch(error => console.error("Error:", error));
