@@ -119,10 +119,6 @@
                         if (text.errors.username) {
                             document.getElementById("error-username").textContent = text.errors.username;
                         }
-                        if (text.errors.email) {
-                            document.getElementById("error-email").textContent = text.errors.email;
-                        }
-
                     }
                 })
                 .catch(error => console.error("Error:", error));
