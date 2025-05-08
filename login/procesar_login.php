@@ -8,13 +8,13 @@ $response = ['success' => false, 'errors' => []];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = trim($_POST['email'] ?? '');
-$password = trim($_POST['password'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-if ($email === '') {
-    $response['errors']['email'] = 'Ingresa tu correo electrónico.';
-} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $response['errors']['email'] = 'Formato de correo inválido.';
-}
+    if ($email === '') {
+        $response['errors']['email'] = 'Ingresa tu correo electrónico.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $response['errors']['email'] = 'Formato de correo inválido.';
+    }
 
 
     if ($password === '') {
