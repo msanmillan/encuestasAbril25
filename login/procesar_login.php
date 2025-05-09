@@ -1,36 +1,50 @@
 <?php
 session_start();
 include '../conexion.php';
-// Hacemos POST para nombre y contraseña
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
 
-    if (!empty($username) && !empty($password)) {
-        $sql = "SELECT * FROM usuarios WHERE nombre = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $username);
+header('Content-Type: application/json');
+
+$response = ['success' => false, 'errors' => []];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    if ($email === '') {
+        $response['errors']['email'] = 'Ingresa tu correo electrónico.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $response['errors']['email'] = 'Formato de correo inválido.';
+    }
+
+
+    if ($password === '') {
+        $response['errors']['password'] = 'Ingresa tu contraseña.';
+    }
+
+    if (empty($response['errors'])) {
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+        $stmt->bind_param("s", $email);
         $stmt->execute();
         $resultado = $stmt->get_result();
-// dependiendo de si ponemos bien la contraseña o mal o ponemos mal el usuario nos dirige a index.php o no 
-        if ($resultado->num_rows == 1) {
+
+        if ($resultado->num_rows === 1) {
             $usuario = $resultado->fetch_assoc();
             if (password_verify($password, $usuario['contrasena'])) {
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['nombre'] = $usuario['nombre'];
                 $_SESSION['rol'] = $usuario['rol'];
-                header("Location: ../inicio/index.php");
-                exit();
+                $response['success'] = true;
+                $response['redirect'] = '../inicio/index.php';
             } else {
-                echo " Contraseña incorrecta.";
+                $response['errors']['password'] = 'La contraseña es incorrecta.';
             }
         } else {
-            echo " Usuario no encontrado.";
+            $response['errors']['email'] = 'Correo no registrado.';
         }
-    } else {
-        echo " Completa todos los campos.";
     }
 } else {
-    echo " Acceso no autorizado.";
+    $response['errors']['general'] = 'Acceso no autorizado.';
 }
-?>
+
+echo json_encode($response);
+exit;
