@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    echo "Encuesta creada correctamente. <a href='../inicio/index.php'>Volver al inicio</a>";
-}
+    header("Location: ../inicio/index.php");
+    exit();
+    }
 ?>
