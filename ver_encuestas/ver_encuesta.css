@@ -1,0 +1,64 @@
+/* ver_encuesta.css */
+
+body {
+    font-family: Arial, sans-serif;
+    color: #000DFF;
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center; /* Centra el texto */
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #000DFF;
+    margin-bottom: 20px;
+}
+
+button,
+.volver-btn {
+    background-color: #000DFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+button:hover,
+.volver-btn:hover {
+    background-color: #0000cc;
+}
+
+.pregunta {
+    margin-bottom: 20px;
+    text-align: left; /* Para que el texto de preguntas y respuestas no quede centrado incómodamente */
+    color: #000;
+}
+
+.respuestas {
+    margin-left: 20px;
+}
+
+.respuestas label {
+    display: block;
+    margin: 5px 0;
+    color: black;
+}
+
+/* Centrar el botón de volver */
+.volver-container {
+    text-align: center;
+    margin-top: 30px;
+}

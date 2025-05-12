@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Encuesta</title>
+    <link rel="stylesheet" href="ver_encuesta.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2 id="autor">Encuesta creada por: <span id="nombreAutor"></span></h2>
+        <h3 id="tituloEncuesta"></h3>
+
+        <form id="formEncuesta">
+            <div id="preguntas-container"></div>
+            <button type="submit">Enviar Respuestas</button>
+        </form>
+
+        <!-- Botón para volver al inicio -->
+        <div class="volver-container">
+            <a href="../inicio/index.php" class="volver-btn">Volver al inicio</a>
+        </div>
+    </div>
+
+    <script>
+        // sacamos el id de la encuesta desde la url
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        let preguntasData = []; // guardamos estructura de preguntas para luego
+
+        // pedimos los datos al servidor
+        fetch(`ver_encuesta.php?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                // si hay error, lo mostramos
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                // pintamos el título y autor
+                document.getElementById("nombreAutor").textContent = data.autor;
+                document.getElementById("tituloEncuesta").textContent = data.titulo;
+
+                // contenedor de preguntas
+                const contenedor = document.getElementById("preguntas-container");
+
+                preguntasData = data.preguntas;
+
+                // generamos preguntas + respuestas
+                preguntasData.forEach((pregunta, index) => {
+                    const div = document.createElement("div");
+                    div.classList.add("pregunta");
+
+                    let html = `<p><strong>pregunta ${index + 1}:</strong> ${pregunta.texto}</p><div class="respuestas">`;
+
+                    // CAMBIO: ahora usamos respuesta.id y respuesta.texto
+                    pregunta.respuestas.forEach(respuesta => {
+                        html += `
+                                <label>
+                                    <input type="radio" name="pregunta_${index}" value="${respuesta.id}" required>
+                                    ${respuesta.texto}
+                                </label><br>`;
+                    });
+
+
+                    html += "</div>";
+                    div.innerHTML = html;
+                    contenedor.appendChild(div);
+                });
+
+                // manejamos el envío del formulario
+                document.getElementById("formEncuesta").addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+
+                    // recogemos ids de respuestas seleccionadas
+                    const respuestas = preguntasData.map((_, index) => {
+                        const seleccionada = document.querySelector(`input[name="pregunta_${index}"]:checked`);
+                        return seleccionada ? parseInt(seleccionada.value) : null;
+                    });
+
+                    // enviamos al backend
+                    fetch("guardar_respuestas.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ respuestas })
+                    })
+                        .then(() => {
+                            // redirigimos al inicio directamente sin mostrar alertas
+                            window.location.href = "../inicio/index.php";
+                        });
+                });
+            });
+    </script>
+</body>
+
+</html>
