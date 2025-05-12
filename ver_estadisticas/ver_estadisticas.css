@@ -1,0 +1,50 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f4;
+    padding: 40px;
+    text-align: center;
+}
+
+.encuesta-box {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #000DFF;
+}
+
+a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #000DFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+a.btn:hover {
+    background: #0017d6;
+}
+
+.volver-container {
+    margin-top: 40px;
+}
+
+.volver-btn {
+    background-color: #000DFF;
+    color: white;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.volver-btn:hover {
+    background-color: #001bbd;
+}
