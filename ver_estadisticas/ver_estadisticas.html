@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis estadísticas</title>
+    <link rel="stylesheet" href="ver_estadisticas.css">
+</head>
+
+<body>
+    <h2>Encuestas que has respondido</h2>
+
+    <?php if ($res->num_rows > 0): ?>
+    <?php while ($row = $res->fetch_assoc()): ?>
+    <div class="encuesta-box">
+        <h3>
+            <?= htmlspecialchars($row['titulo']) ?>
+        </h3>
+        <a class="btn" href="estadisticas_encuesta.php?id=<?= $row['id_encuesta'] ?>">Ver estadísticas</a>
+    </div>
+    <?php endwhile; ?>
+    <?php else: ?>
+    <p>No has respondido a ninguna encuesta todavía.</p>
+    <?php endif; ?>
+
+    <div class="volver-container">
+        <a href="../inicio/index.php" class="volver-btn">← volver al inicio</a>
+    </div>
+</body>
+
+</html>
