@@ -79,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // SI OCURRE ALGUN ERROR, CANCELAMOS TODA LA TRANSACCION
         $conn->rollback();
 
-        // MOSTRAMOS UN MENSAJE DE ERROR Y DETENEMOS LA EJECUCION
-        die("Ocurrió un error al guardar la encuesta: " . $e->getMessage());
+        // REDIRIGIMOS AL INICIO EN CASO DE FALLO
+        header("Location: ../inicio/index.php");
     }
 }
 ?>
