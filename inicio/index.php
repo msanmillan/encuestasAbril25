@@ -42,6 +42,7 @@ if (isset($_SESSION['id_usuario'])) {
     $nav = "
         <span class='usuario'>👤 " . htmlspecialchars($_SESSION['nombre']) . "</span>
         <a href='../crear_encuesta/crear.html'>Crear encuesta</a>
+         <a href='../ver_estadisticas/ver_estadisticas.php'>Ver estadísticas</a>
         <a href='../logout/cerrar_sesion.php'>Cerrar sesión</a>";
 } else {
     $nav = "
