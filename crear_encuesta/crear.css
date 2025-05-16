@@ -24,6 +24,8 @@ input {
     margin: 10px 0;
     border-radius: 6px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 .pregunta {
@@ -32,10 +34,31 @@ input {
     background: #f1f1f1;
     border-radius: 8px;
     text-align: left;
+    box-sizing: border-box;
+}
+
+.pregunta h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.respuestas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.respuestas .opcion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .respuestas input {
-    margin-top: 5px;
+    margin: 0;
+    flex: 1;
+    box-sizing: border-box;
 }
 
 button {
@@ -46,6 +69,7 @@ button {
     border-radius: 6px;
     cursor: pointer;
     margin-top: 10px;
+    font-size: 1rem;
 }
 
 button:hover {
@@ -57,6 +81,9 @@ button:hover {
     margin-left: 10px;
     padding: 5px 10px;
     font-size: 0.9rem;
+    border-radius: 6px;
+    color: white;
+    border: none;
 }
 
 .btn-pequeno:hover {
@@ -68,4 +95,8 @@ button:hover {
     margin-top: 15px;
     text-decoration: none;
     color: #000DFF;
+}
+
+.volver:hover {
+    text-decoration: underline;
 }
