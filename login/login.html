@@ -22,6 +22,9 @@
         <input type="password" id="password" name="password" required />
         <p id="error-password" class="error-message"></p>
       </div>
+
+      <p id="error-general" class="error-message"></p> <!-- MENSAJE ERROR GENERAL -->
+
       <button type="submit">Entrar</button>
     </form>
 
@@ -38,6 +41,7 @@
       // Limpiar mensajes anteriores
       document.getElementById("error-email").textContent = "";
       document.getElementById("error-password").textContent = "";
+      document.getElementById("error-general").textContent = "";
 
       const formData = new FormData(this);
 
@@ -55,6 +59,10 @@
             }
             if (data.errors.password) {
               document.getElementById("error-password").textContent = data.errors.password;
+            }
+            // LANZAR ERROR DE CREDENCIALES INVALIDAS
+            if (data.errors.general) {
+              document.getElementById("error-general").textContent = data.errors.general;
             }
           }
         })
