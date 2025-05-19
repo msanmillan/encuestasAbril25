@@ -19,7 +19,14 @@
     <div class="form-container">
         <h2>Crear Encuesta</h2>
 
+<<<<<<< HEAD
         <form id="formEncuesta" action="procesar_crear.php" method="POST" novalidate>
+=======
+        <!-- Formulario que envía datos por POST a procesar_crear.php -->
+        <form id="formEncuesta" action="procesar_crear.php" method="POST">
+
+            <!-- Campo para el título de la encuesta -->
+>>>>>>> 9a5deea53649ec3cd9c3a532d1424d153f8c5031
             <label for="titulo">Título de la encuesta:</label>
             <input type="text" id="titulo" name="titulo" required>
             <div id="error-titulo" class="error-text"></div>
@@ -139,6 +146,7 @@
             });
         }
 
+<<<<<<< HEAD
         document.getElementById('formEncuesta').addEventListener('submit', function (e) {
             let valido = true;
 
@@ -192,6 +200,25 @@
 
             if (!valido) {
                 e.preventDefault();
+=======
+        // --- VALIDACION DE RESPUESTAS DUPLICADAS ---
+        const form = document.getElementById('formEncuesta');
+        form.addEventListener('submit', function (e) {
+            // Por cada pregunta, revisar si hay respuestas duplicadas
+            const preguntas = document.querySelectorAll('.pregunta');
+            for (const pregunta of preguntas) {
+                const respuestasInputs = pregunta.querySelectorAll('.respuestas input');
+                let textos = [];
+                for (const input of respuestasInputs) {
+                    const valor = input.value.trim().toLowerCase();
+                    if (textos.includes(valor)) {
+                        alert("No se pueden respuestas duplicadas en la misma pregunta.");
+                        e.preventDefault(); // Evita el envío del formulario
+                        return;
+                    }
+                    textos.push(valor);
+                }
+>>>>>>> 9a5deea53649ec3cd9c3a532d1424d153f8c5031
             }
         });
     </script>
