@@ -20,6 +20,7 @@
         <h2>Crear Encuesta</h2>
 
         <form id="formEncuesta" action="procesar_crear.php" method="POST" novalidate>
+
             <label for="titulo">Título de la encuesta:</label>
             <input type="text" id="titulo" name="titulo" required>
             <div id="error-titulo" class="error-text"></div>
@@ -96,7 +97,6 @@
                 <div class="error-text"></div>
                 <button type="button" class="btn-pequeno" onclick="eliminarOpcion(this)">Eliminar</button>
             `;
-
             respuestasDiv.appendChild(nuevaOpcion);
             actualizarNumeracionRespuestas(respuestasDiv);
         }
@@ -125,12 +125,10 @@
                 const nuevoNum = index + 1;
                 pregunta.dataset.numero = nuevoNum;
                 pregunta.querySelector('h4').textContent = `Pregunta ${nuevoNum}`;
-
                 const inputs = pregunta.querySelectorAll('.respuestas input');
                 inputs.forEach(input => {
                     input.name = `respuestas_${nuevoNum}[]`;
                 });
-
                 actualizarNumeracionRespuestas(pregunta.querySelector('.respuestas'));
             });
         }
@@ -177,23 +175,32 @@
                 }
 
                 const respuestas = pregunta.querySelectorAll('.respuestas .opcion');
-                if (respuestas.length < 2) {
-                    alert(`La pregunta ${i + 1} debe tener al menos 2 respuestas.`);
-                    valido = false;
-                }
+                let textos = [];
 
                 respuestas.forEach((opcion, j) => {
                     const inputRespuesta = opcion.querySelector('input');
                     const errorRespuesta = inputRespuesta.nextElementSibling;
-                    if (inputRespuesta.value.trim() === '') {
+                    const valor = inputRespuesta.value.trim().toLowerCase();
+
+                    if (valor === '') {
                         errorRespuesta.textContent = `La respuesta ${j + 1} de la pregunta ${i + 1} está vacía.`;
                         valido = false;
+                    } else if (textos.includes(valor)) {
+                        errorRespuesta.textContent = `Respuesta duplicada`;
+                        valido = false;
+                    } else {
+                        textos.push(valor);
                     }
                 });
+
+                if (respuestas.length < 2) {
+                    alert(`La pregunta ${i + 1} debe tener al menos 2 respuestas.`);
+                    valido = false;
+                }
             });
 
             if (!valido) {
-                e.preventDefault();
+                e.preventDefault(); // Solo cancela si hay errores
             }
         });
     </script>
