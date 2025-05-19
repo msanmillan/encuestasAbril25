@@ -36,10 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $response['success'] = true;
                 $response['redirect'] = '../inicio/index.php';
             } else {
-                $response['errors']['password'] = 'La contraseña es incorrecta.';
+                // CONSTRASEÑA INCORRECTA -> MENSAJE GENERAL
+                $response['errors']['general'] = 'Credenciales inválidas.';
             }
         } else {
-            $response['errors']['email'] = 'Correo no registrado.';
+            // COREO NO REGISTRADO -> MENSAJE GENRAL
+            $response['errors']['general'] = 'Credenciales inválidas.';
         }
     }
 } else {
