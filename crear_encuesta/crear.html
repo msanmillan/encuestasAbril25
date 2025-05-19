@@ -12,7 +12,7 @@
         <h2>Crear Encuesta</h2>
 
         <!-- Formulario que envía datos por POST a procesar_crear.php -->
-        <form action="procesar_crear.php" method="POST">
+        <form id="formEncuesta" action="procesar_crear.php" method="POST">
 
             <!-- Campo para el título de la encuesta -->
             <label for="titulo">Título de la encuesta:</label>
@@ -155,6 +155,26 @@
                 input.placeholder = `Respuesta ${index + 1}`;
             });
         }
+
+        // --- VALIDACION DE RESPUESTAS DUPLICADAS ---
+        const form = document.getElementById('formEncuesta');
+        form.addEventListener('submit', function (e) {
+            // Por cada pregunta, revisar si hay respuestas duplicadas
+            const preguntas = document.querySelectorAll('.pregunta');
+            for (const pregunta of preguntas) {
+                const respuestasInputs = pregunta.querySelectorAll('.respuestas input');
+                let textos = [];
+                for (const input of respuestasInputs) {
+                    const valor = input.value.trim().toLowerCase();
+                    if (textos.includes(valor)) {
+                        alert("No se pueden respuestas duplicadas en la misma pregunta.");
+                        e.preventDefault(); // Evita el envío del formulario
+                        return;
+                    }
+                    textos.push(valor);
+                }
+            }
+        });
     </script>
 </body>
 
