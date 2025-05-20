@@ -93,3 +93,95 @@ h1 {
     font-size: 0.9rem;
     color: #888;
 }
+
+/* Contenedor general */
+.contenedor {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Título principal */
+main h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Tarjetas de encuestas */
+.encuestas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta individual */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-4px);
+}
+.card h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+.card p {
+    margin-bottom: 1em;
+}
+
+/* Botón dentro de tarjeta */
+.card .btn, .card .info {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.card .btn {
+    background-color: #007bff;
+    color: white;
+}
+.card .btn:hover {
+    background-color: #0056b3;
+}
+
+.card .info {
+    background-color: #888;
+    color: white;
+}
+
+/* Paginación */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px; /* ← Esto asegura que los botones estén separados */
+    margin: 30px 0;
+}
+
+.paginacion .btn-pag {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+}
+
+.paginacion .btn-pag:hover {
+    background-color: #ddd;
+}
+
+.paginacion .active {
+    background-color: #007bff;
+    color: white;
+    pointer-events: none;
+}
